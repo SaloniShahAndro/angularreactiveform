@@ -1,0 +1,123 @@
+<h3>Registration</h3>
+<form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <div class="ui-inputgroup">
+                <span class="ui-md-4">Username</span>
+                <span class="ui-inputgroup-addon">
+                    <i class="fa fa-user"></i>
+                </span>
+                <input type="text"  formControlName='name' placeholder=" Username">
+            </div>
+            <div class="ui-grid-col-4">
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['name'].valid&&userform.controls['name'].dirty">
+                    Username is required
+                </div>
+            </div>
+
+        </div>
+
+       
+        <div class="ui-g-12">
+            <div class="ui-inputgroup">
+                <span class="ui-md-4">Email Id</span>
+                <span class="ui-inputgroup-addon">
+                    <i class="fa fa-envelope"></i>
+                </span>
+                <input type="text"  placeholder=" Email Id" formControlName="email">
+            </div>
+            <div class="ui-grid-col-4">
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['email'].valid&&userform.controls['email'].dirty">
+                    <span *ngIf="userform.controls['email'].errors['required']">Email is required</span>
+                    <span *ngIf="userform.controls['email'].errors['email']">Email is not valid</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-g-12">
+            <div class="ui-inputgroup">
+                <span class="ui-md-4">Password</span>
+                <span class="ui-inputgroup-addon">
+                    <i class="fa fa-lock"></i>
+                </span>
+                <input type="password"  placeholder=" Password" formControlName="pwd" minlength="6" maxlength="20">
+            </div>
+            <div class="ui-grid-col-4">
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['pwd'].valid&&userform.controls['pwd'].dirty">
+                    <span *ngIf="userform.controls['pwd'].errors['required']">Password is required</span>
+                    <span *ngIf="userform.controls['pwd'].errors['minlength']">Password should be greater than 6 digits</span>
+                    <span *ngIf="userform.controls['pwd'].errors['maxlength']">Password should between 6 to 20 digits</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-g-12">
+            <div class="ui-inputgroup">
+                <span class="ui-md-4">Confirm Password</span>
+                <span class="ui-inputgroup-addon">
+                    <i class="fa fa-lock"></i>
+                </span>
+                <input type="password"  placeholder=" Confirm password" formControlName="cpwd" minlength="6" maxlength="20">
+            </div>
+            <div class="ui-grid-col-4">
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="userform.controls.pwd.value!=userform.controls.cpwd.value&& userform.controls['cpwd'].dirty">
+                    Password and confirm password should be match
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="ui-g-12">
+            <div class="ui-inputgroup">
+                <span class="ui-md-4">Gender</span>
+                <div class="ui-g" style="width:250px;margin-bottom:10px">
+
+                  <label>
+                    <input type="radio" value="Male" formControlName="gender">
+                      <span>Male</span>
+                  </label>
+                  <label>
+                    <input type="radio" value="Female" formControlName="gender">
+                      <span>Female</span>
+                  </label>
+                </div>
+
+            </div>
+
+            <div class="ui-grid-col-4">
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['gender'].valid&&userform.controls['gender'].dirty">
+                    Gender is required
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui-g-12">
+            <div class="ui-inputgroup">
+                <span class="ui-md-4">Hobbies</span>
+              
+                <div [formArrayName]="'items'" [class.invalid]="!userform.controls.selectedItems.valid" style="width:250px;margin-bottom:10px">
+                    <div *ngFor="let control of userform.controls.items.controls; let i = index;" [formGroup]="control" class="ui-g-12">
+                        <input type="checkbox" formControlName="checkbox" id="{{ control.controls.id.value }}">
+                        <label attr.for="{{ control.controls.id.value }}">{{ control.controls.text.value }}</label>
+                    </div>
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls.selectedItems.valid&&userform.controls.items.touched==true">
+                        Atleast one hobby must be selected
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="ui-g-2">
+
+            <button type="submit" label="Submit" [disabled]="!userform.valid" class="ui-button-success">Submit</button>
+
+            <div class="ui-grid-col-4"></div>
+        </div>
+
+    </div>
+</form>
